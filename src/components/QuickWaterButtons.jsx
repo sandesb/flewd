@@ -1,14 +1,23 @@
 import React from 'react';
 import { showWaterAddedToast, showWaterResetToast } from '../lib/toast';
 
-const QuickWaterButtons = ({ setWaterConsumed }) => {
+const QuickWaterButtons = ({ setWaterConsumed, waterConsumed }) => {
   const handleWaterAdd = (amount) => {
-    setWaterConsumed(prev => Math.max(0, prev + amount));
+    const newTotal = Math.max(0, waterConsumed + amount);
+    setWaterConsumed(newTotal);
+    
+    // Save to localStorage
+    localStorage.setItem('waterConsumed', newTotal.toString());
+    
     showWaterAddedToast(amount);
   };
 
   const handleReset = () => {
     setWaterConsumed(0);
+    
+    // Remove from localStorage
+    localStorage.removeItem('waterConsumed');
+    
     showWaterResetToast();
   };
 

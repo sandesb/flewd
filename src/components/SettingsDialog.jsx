@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { X } from 'lucide-react';
+import { X, Moon } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { 
   showSettingsSavedToast, 
   showGoalUpdatedToast, 
@@ -11,6 +12,7 @@ const SettingsDialog = ({ isOpen, onClose, dailyGoal, setDailyGoal, sleepTime, s
   const [localDailyGoal, setLocalDailyGoal] = useState(dailyGoal);
   const [localSleepTime, setLocalSleepTime] = useState(sleepTime);
   const [localWakeTime, setLocalWakeTime] = useState(wakeTime);
+  const navigate = useNavigate();
 
   const handleSave = () => {
     // Check what changed and show appropriate toasts
@@ -41,20 +43,36 @@ const SettingsDialog = ({ isOpen, onClose, dailyGoal, setDailyGoal, sleepTime, s
     onClose();
   };
 
+  const handleMoonClick = () => {
+    onClose(); // Close settings dialog
+    navigate('/moon'); // Navigate to moon page
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl shadow-2xl p-6 w-96 max-w-[90vw]">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-800">Settings</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 transition-colors duration-200"
-          >
-            <X size={24} />
-          </button>
+          <div className="flex items-center space-x-2">
+            {/* Moon Navigation Button */}
+            <button
+              onClick={handleMoonClick}
+              className="p-2 text-purple-600 hover:text-purple-700 hover:bg-purple-50 rounded-lg transition-all duration-200"
+              title="Go to Moon Page"
+            >
+              <Moon size={20} />
+            </button>
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="text-gray-500 hover:text-gray-700 transition-colors duration-200"
+            >
+              <X size={24} />
+            </button>
+          </div>
         </div>
 
         {/* Form */}

@@ -15,6 +15,41 @@ const HumanBodyWaterFill = () => {
   const [wakeTime, setWakeTime] = useState('06:00'); // Default 6:00 AM
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
+  // Load saved values from localStorage on component mount
+  useEffect(() => {
+    const savedWaterConsumed = localStorage.getItem('waterConsumed');
+    const savedWaterGoal = localStorage.getItem('waterGoal');
+    const savedSleepTime = localStorage.getItem('sleepTime');
+    const savedWakeTime = localStorage.getItem('wakeTime');
+    
+    if (savedWaterConsumed) {
+      setWaterConsumed(parseFloat(savedWaterConsumed));
+    }
+    if (savedWaterGoal) {
+      setWaterGoal(parseFloat(savedWaterGoal));
+    }
+    if (savedSleepTime) {
+      setSleepTime(savedSleepTime);
+    }
+    if (savedWakeTime) {
+      setWakeTime(savedWakeTime);
+    }
+  }, []);
+
+  // Save water goal to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('waterGoal', waterGoal.toString());
+  }, [waterGoal]);
+
+  // Save sleep and wake times to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('sleepTime', sleepTime);
+  }, [sleepTime]);
+
+  useEffect(() => {
+    localStorage.setItem('wakeTime', wakeTime);
+  }, [wakeTime]);
+
   // Calculate percentage based on consumed vs goal
   const waterLevel = Math.min((waterConsumed / waterGoal) * 100, 100);
 
@@ -66,7 +101,10 @@ const HumanBodyWaterFill = () => {
           waterConsumed={waterConsumed}
         />
 
-        <QuickWaterButtons setWaterConsumed={setWaterConsumed} />
+        <QuickWaterButtons 
+          setWaterConsumed={setWaterConsumed} 
+          waterConsumed={waterConsumed}
+        />
 
         <BodySilhouette animatedLevel={animatedLevel} />
 
