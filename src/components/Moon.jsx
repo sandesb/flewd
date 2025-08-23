@@ -61,8 +61,8 @@ const Moon = () => {
   const generateScaleMarkings = () => {
     const markings = [];
     for (let i = 1; i <= days; i++) {
-      const isCurrentDay = i === currentDay;
-      const isPastDay = i <= currentDay;
+      const isCurrentDay = i === (days - currentDay + 1);
+      const isPastDay = i <= (days - currentDay + 1);
       
       markings.push(
         <div key={i} className="flex items-center">

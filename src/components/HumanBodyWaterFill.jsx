@@ -77,13 +77,13 @@ const HumanBodyWaterFill = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full relative">
         {/* Settings Button */}
-        <button
+            <button
           onClick={() => setIsSettingsOpen(true)}
           className="absolute top-6 right-6 p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
           title="Settings"
         >
           <Settings size={24} />
-        </button>
+            </button>
 
         <div className="text-center mb-8">
           <h1 className="text-7xl font-bold text-gray-700 mb-2">
@@ -127,7 +127,7 @@ const HumanBodyWaterFill = () => {
           wakeTime={wakeTime}
           setWakeTime={setWakeTime}
         />
-      </div>
+        </div>
     </div>
   );
 };
