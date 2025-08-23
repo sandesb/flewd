@@ -3,11 +3,23 @@ import React from 'react';
 const BodySilhouette = ({ animatedLevel }) => {
   const femaleBodyPath = "M50 15 C45 15 40 20 40 28 C40 35 45 40 50 40 C55 40 60 35 60 28 C60 20 55 15 50 15 Z M50 45 C45 45 42 48 42 52 L42 85 C42 88 40 90 38 92 L35 120 C34 125 32 130 30 135 L30 180 C30 185 35 190 40 190 C45 190 48 185 48 180 L48 140 L52 140 L52 180 C52 185 55 190 60 190 C65 190 70 185 70 180 L70 135 C68 130 66 125 65 120 L62 92 C60 90 58 88 58 85 L58 52 C58 48 55 45 50 45 Z";
 
-  const femaleArmsPath = "M42 60 C30 80 30 110 40 120 M58 60 C70 80 70 110 60 120";
+  // Arms change position based on hydration level
+  const getArmsPath = (level) => {
+    if (level >= 100) {
+      // Raised arms for celebration
+      return "M42 60 C30 40 30 20 40 10 M58 60 C70 40 70 20 60 10";
+    } else {
+      // Normal arms
+      return "M42 60 C30 80 30 110 40 120 M58 60 C70 80 70 110 60 120";
+    }
+  };
+
+  const armsPath = getArmsPath(animatedLevel);
+  const isCelebrating = animatedLevel >= 100;
 
   return (
     <div className="flex justify-center mb-6">
-      <div className="relative">
+      <div className={`relative ${isCelebrating ? 'animate-bounce mt-10' : ''}`}>
         <svg width="200" height="300" viewBox="0 0 100 200" className="overflow-visible">
           <defs>
             {/* Gradient for water */}
@@ -45,9 +57,9 @@ const BodySilhouette = ({ animatedLevel }) => {
             className="transition-all duration-500"
           />
           
-          {/* Female arms */}
+          {/* Arms - change position based on hydration level */}
           <path
-            d={femaleArmsPath}
+            d={armsPath}
             fill="none"
             stroke="#3b82f6"
             strokeWidth="2"

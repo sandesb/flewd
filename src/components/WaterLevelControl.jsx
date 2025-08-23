@@ -8,7 +8,7 @@ const WaterLevelControl = ({ waterLevel, animatedLevel, waterGoal, waterConsumed
 
   // Show confetti when water level reaches 100%
   useEffect(() => {
-    if (waterLevel >= 100 && !showConfetti) {
+    if (waterLevel >= 100) {
       setShowConfetti(true);
       // Hide confetti after 5 seconds
       const timer = setTimeout(() => {
@@ -17,7 +17,7 @@ const WaterLevelControl = ({ waterLevel, animatedLevel, waterGoal, waterConsumed
       
       return () => clearTimeout(timer);
     }
-  }, [waterLevel, showConfetti]);
+  }, [waterLevel]);
 
   return (
     <>
