@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { Settings } from 'lucide-react';
 import DigitalClock from './DigitalClock';
 import WaterGoalConsumption from './WaterGoalConsumption';
 import QuickWaterButtons from './QuickWaterButtons';
 import BodySilhouette from './BodySilhouette';
 import WaterLevelControl from './WaterLevelControl';
+import SettingsDialog from './SettingsDialog';
 
 const HumanBodyWaterFill = () => {
   const [waterGoal, setWaterGoal] = useState(3); // Default 3 liters
   const [waterConsumed, setWaterConsumed] = useState(0); // Liters consumed
   const [animatedLevel, setAnimatedLevel] = useState(0);
+  const [sleepTime, setSleepTime] = useState('22:00'); // Default 10:00 PM
+  const [wakeTime, setWakeTime] = useState('06:00'); // Default 6:00 AM
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   // Calculate percentage based on consumed vs goal
   const waterLevel = Math.min((waterConsumed / waterGoal) * 100, 100);
@@ -35,7 +40,16 @@ const HumanBodyWaterFill = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
+      <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full relative">
+        {/* Settings Button */}
+        <button
+          onClick={() => setIsSettingsOpen(true)}
+          className="absolute top-6 right-6 p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
+          title="Settings"
+        >
+          <Settings size={24} />
+        </button>
+
         <div className="text-center mb-8">
           <h1 className="text-7xl font-bold text-gray-700 mb-2">
             FLEWD
@@ -45,11 +59,10 @@ const HumanBodyWaterFill = () => {
           </h2>
         </div>
 
-        <DigitalClock />
+        <DigitalClock sleepTime={sleepTime} wakeTime={wakeTime} />
         
         <WaterGoalConsumption 
           waterGoal={waterGoal}
-          setWaterGoal={setWaterGoal}
           waterConsumed={waterConsumed}
         />
 
@@ -63,6 +76,18 @@ const HumanBodyWaterFill = () => {
           waterGoal={waterGoal}
           waterConsumed={waterConsumed}
           getProgressBarColor={getProgressBarColor}
+        />
+
+        {/* Settings Dialog */}
+        <SettingsDialog
+          isOpen={isSettingsOpen}
+          onClose={() => setIsSettingsOpen(false)}
+          dailyGoal={waterGoal}
+          setDailyGoal={setWaterGoal}
+          sleepTime={sleepTime}
+          setSleepTime={setSleepTime}
+          wakeTime={wakeTime}
+          setWakeTime={setWakeTime}
         />
       </div>
     </div>

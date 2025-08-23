@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useWindowSize } from 'react-use';
 import Confetti from 'react-confetti';
+import { showGoalAchievedToast } from '../lib/toast';
 
 const WaterLevelControl = ({ waterLevel, animatedLevel, waterGoal, waterConsumed, getProgressBarColor }) => {
   const { width, height } = useWindowSize();
@@ -10,11 +11,12 @@ const WaterLevelControl = ({ waterLevel, animatedLevel, waterGoal, waterConsumed
   useEffect(() => {
     if (waterLevel >= 100) {
       setShowConfetti(true);
+      showGoalAchievedToast();
       // Hide confetti after 5 seconds
       const timer = setTimeout(() => {
         setShowConfetti(false);
       }, 5000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [waterLevel]);
@@ -30,43 +32,26 @@ const WaterLevelControl = ({ waterLevel, animatedLevel, waterGoal, waterConsumed
           gravity={0.3}
         />
       )}
-      
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <label className="text-lg font-medium text-gray-700">
-            Hydration Progress
-          </label>
-          <span className={`text-2xl font-bold ${
-            waterLevel >= 70 ? 'text-green-500' : 
-            waterLevel >= 40 ? 'text-yellow-500' : 'text-red-500'
-          }`}>
-            {Math.round(animatedLevel)}%
-          </span>
-        </div>
-        
-        <div className="bg-gray-100 rounded-lg p-3">
-          <div className="flex justify-between text-sm text-gray-600 mb-1">
-            <span>0L</span>
-            <span>{waterGoal}L</span>
+
+      <div className="mb-6">
+        {/* Progress Bar */}
+        <div className="mb-4">
+          <div className="flex justify-between text-sm text-gray-600 mb-2">
+            <span>Hydration Level</span>
+            <span>{waterLevel.toFixed(1)}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3">
-            <div 
-              className="h-3 rounded-full transition-all duration-300"
-              style={{ 
-                width: `${Math.min(waterLevel, 100)}%`,
-                backgroundColor: getProgressBarColor(waterLevel)
+            <div
+              className="h-3 rounded-full transition-all duration-500 ease-out"
+              style={{
+                width: `${animatedLevel}%`,
+                backgroundColor: getProgressBarColor(animatedLevel)
               }}
-            ></div>
+            />
           </div>
         </div>
-        
-        <div className="flex justify-between text-sm text-gray-500">
-          <span>Dehydrated</span>
-          <span>Optimal</span>
-          <span>Hydrated</span>
-        </div>
 
-        {/* Status Message */}
+        {/* Status Messages */}
         <div className="text-center p-3 rounded-lg">
           {waterLevel >= 100 && (
             <p className="text-green-600 font-medium text-lg">🎉 Congratulations! Daily goal achieved! 🎉</p>
@@ -82,13 +67,12 @@ const WaterLevelControl = ({ waterLevel, animatedLevel, waterGoal, waterConsumed
           )}
         </div>
 
-        {/* Remaining Water */}
-        <div className="text-center p-3 bg-gray-50 rounded-lg">
-          <p className="text-gray-700">
-            <span className="font-medium">
-              {Math.max(0, waterGoal - waterConsumed).toFixed(1)}L
-            </span> remaining today
-          </p>
+        {/* Remaining Water Info */}
+        <div className="text-center p-4 bg-gray-50 rounded-lg">
+          <div className="text-sm text-gray-600 mb-2">Daily Progress</div>
+          <div className="text-2xl font-bold text-blue-600">
+            {waterConsumed.toFixed(1)}L / {waterGoal}L
+          </div>
         </div>
       </div>
     </>
@@ -96,3 +80,4 @@ const WaterLevelControl = ({ waterLevel, animatedLevel, waterGoal, waterConsumed
 };
 
 export default WaterLevelControl;
+
