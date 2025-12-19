@@ -90,7 +90,7 @@ const HumanBodyWaterFill = () => {
             FLÜD
           </h1>
           <h2 className="text-xl font-medium text-blue-500">
-            - Body Hydration Tracker -
+            - Body Hydration Visualizer -
           </h2>
         </div>
 
