@@ -1,7 +1,6 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import store from './store/store'
 import HumanBodyWaterFill from './components/HumanBodyWaterFill'
 import Moon from './components/Moon'
 import { Toaster } from 'react-hot-toast'
@@ -9,7 +8,7 @@ import Snowfall from 'react-snowfall'
 
 function App() {
   return (
-    <Provider store={store}>
+    <Provider >
       <Router>
         <div style={{ position: 'relative', minHeight: '100vh', width: '100%' }}>
           <Snowfall 
